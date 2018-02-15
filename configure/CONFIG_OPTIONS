@@ -1,0 +1,13 @@
+# One should install libusb-1.0.0
+# Debian apt-get install libusb-1.0-0-dev libusb-1.0-0
+# USR_INCLUDES 
+# $ pkg-config --cflags libusb-1.0
+#   -I/usr/include/libusb-1.0
+# USR_LDFLAGS
+# $ pkg-config --libs libusb-1.0
+# $ -lusb-1.0 
+#
+#ifeq (linux-x86_64, $(T_A))
+#  DRV_USBTMC=YES
+#  export DRV_USBTMC
+#endif

@@ -1,16 +1,38 @@
-EPICS_MODULE_NAME:=memDisplay
-# This is the module source tag
-# *) individual tags
-#    export EPICS_MODULE_TAG:=tags/1.1.1
-# *) master branch 
-#    export EPICS_MODULE_TAG:=master
-# *) individual hash 
-export EPICS_MODULE_TAG:=master
-export EPICS_MODULE_SRC_PATH:=memDisplay
-export ESS_MODULE_MAKEFILE:=$(EPICS_MODULE_NAME).Makefile
-export PROJECT:=$(EPICS_MODULE_NAME)
-export LIBVERSION:=0.0.1
-export E3_ENV_PATH:=e3-env
-export E3_ENV_NAME:=e3-env
-#export E3_ENV_NAME:=E3_ENV_CONF
-#export E3_ENV_TAG:=v0.1
+VARS_EXCLUDES := $(.VARIABLES)
+
+
+ifneq (,$(findstring dev,$(MAKECMDGOALS)))
+include $(TOP)/configure/RELEASE_DEV
+else
+include $(TOP)/configure/RELEASE
+endif
+
+# CONFIG=$(EPICS_BASE)/configure
+# include $(CONFIG)/CONFIG
+
+ifneq (,$(findstring dev,$(MAKECMDGOALS)))
+include $(TOP)/configure/CONFIG_MODULE_DEV
+else
+include $(TOP)/configure/CONFIG_MODULE
+endif
+
+# The definitions shown below can also be placed in an untracked RELEASE.local
+-include $(TOP)/../RELEASE.local
+-include $(TOP)/configure/RELEASE.local
+-include $(TOP)/../CONFIG_MODULE.local
+-include $(TOP)/configure/CONFIG_MODULE.local
+
+
+## Asyn, ADSupport may needs to define other variables
+
+-include $(TOP)/configure/CONFIG_OPTIONS
+
+## It is not necessary to modify the following files in most case.
+## Order is matter
+
+include $(TOP)/configure/E3/CONFIG_REQUIRE
+include $(TOP)/configure/E3/CONFIG_E3_PATH
+include $(TOP)/configure/E3/CONFIG_E3_MAKEFILE
+include $(TOP)/configure/E3/CONFIG_EPICS
+include $(TOP)/configure/E3/CONFIG_SUDO
+include $(TOP)/configure/E3/CONFIG_EXPORT

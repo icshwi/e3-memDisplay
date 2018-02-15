@@ -8,3 +8,11 @@ core.*
 #*
 .#*
 \#*
+
+*.local
+*~
+\#*
+*-dev
+.cvsignore
+*_old/
+.\#*
